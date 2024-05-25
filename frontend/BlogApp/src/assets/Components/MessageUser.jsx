@@ -7,6 +7,7 @@ const MessageUser = ({user}) => {
     const [show,setShow]=useState(false)
     const [message,setMessage]=useState("")
     const [messageR,setMessageR]=useState("")
+    const [count,setCount]=useState(0)
     const socket=io('http://localhost:5000')
     document.windowId=Math.round(Math.random()*10000)
     const sendMessage=(e)=>{
@@ -21,7 +22,6 @@ const MessageUser = ({user}) => {
         socket.emit("send_message",{message:message,windowId:document.windowId})
     }
     socket.once("receive_message",(data)=>{
-        console.log(data)
             if(data.windowId!=document.windowId) {
                 setMessageR(data.message)
                 setMessage("")
