@@ -40,6 +40,9 @@ const Messenger = () => {
             users.map((user,e)=>{
              return <MessageUser user={user} key={e} />
         })}
+
+            <MessageUser user={{username:"Guest",_id:"all"}} />
+
         </div>
      );
 }

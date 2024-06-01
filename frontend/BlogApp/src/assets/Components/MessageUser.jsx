@@ -17,12 +17,14 @@ const MessageUser = ({user}) => {
         newElement.innerHTML=`
             <p class='bg-custom text-display-self d-flex justify-content-end p-3 my-2'>${message}</p>
         `
-        let textField=document.getElementById('text-field')
-        let display=document.getElementById('display').insertBefore(newElement,textField)
-        socket.emit("send_message",{message:message,windowId:document.windowId})
+        // let textField=document.getElementById('text-field')
+        let textField=document.getElementById(user._id)
+        let display=document.getElementById(`display-${user._id}`).insertBefore(newElement,textField)
+        // let display=document.getElementById('display').insertBefore(newElement,textField)
+        socket.emit("send_message",{message:message,windowId:document.windowId,userId:user._id,senderId:userState.id})
     }
     socket.once("receive_message",(data)=>{
-            if(data.windowId!=document.windowId) {
+            if(data.windowId!=document.windowId &&  (data.userId == userState.id || data.userId=="all")) {
                 setMessageR(data.message)
                 setMessage("")
                 let newElement=document.createElement('div')
@@ -30,8 +32,9 @@ const MessageUser = ({user}) => {
                 newElement.innerHTML=`
                     <p class='bg-custom-2 text-display d-flex justify-content-start p-3 my-2'>${data.message}</p>
                 `
-                let textField=document.getElementById('text-field')
-                let display=document.getElementById('display').insertBefore(newElement,textField)
+                // let textField=document.getElementById('text-field')
+                let textField=document.getElementById(data.senderId)
+                let display=document.getElementById(`display-${data.senderId}`).insertBefore(newElement,textField)
             }
         })
     return ( 
@@ -50,11 +53,11 @@ const MessageUser = ({user}) => {
                     <button className="btn btn-custom mb-2 w-100" onClick={()=>setShow(!show)}>Message <span className="fas fa-keyboard"></span></button>
                     <button className="btn btn-custom mt-2 w-100" disabled> Call <span className="fas fa-phone"></span></button>
                 </div>
-                <div className="display col-12 mt-3 border row justify-content-end" id="display">
+                <div className="display col-12 mt-3 border row justify-content-end" id={"display-"+user._id}>
                 {/* {messageR && <p className='bg-custom-2 text-display d-flex justify-content-start p-3 my-2'> {messageR}</p>} */}
                 {
                     show &&
-                    <div className="text-field col-12 px-3 py-3" id="text-field">
+                    <div className={"text-field col-12 px-3 py-3 "+ (user._id==="all" && "grp-text-field")} id={user._id}>
                         <form action="">
                             <div className="form-group row">
                                 <textarea name="message" className="form-control message-box" value={message} onChange={(e)=>setMessage(e.target.value)} rows="1" id="" placeholder='Enter message'></textarea>

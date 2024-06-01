@@ -38,6 +38,7 @@ const AuthContextProvider = (props) => {
             throw Error("Error. Couldn't check user state")
         })
         .then(data=>{
+            console.log(data.Users)
             setUsers(data.Users)
         })
         .catch(error=>{

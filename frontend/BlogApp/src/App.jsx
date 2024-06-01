@@ -7,6 +7,7 @@ import Form from './assets/Components/Form'
 import AuthContextProvider from './assets/Context/AuthContext'
 import Messenger from './assets/Components/Messenger'
 import Details from './assets/Components/Details'
+import Weather from './assets/Components/Weather'
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
           <Routes>
             <Route path='/' element={<Home />} />
             <Route path='/messenger' element={<Messenger />} />
+            <Route path='/weather' element={<Weather />} />
             <Route path='/register' element={<Form mode="register" />} />
             <Route path='/login' element={<Form mode="login" />} />
             <Route path='/details/:id' element={<Details />} />
