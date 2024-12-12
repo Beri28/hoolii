@@ -1,2 +1,5 @@
 frontend/BlogApp/public/* linguist-vendored
+* linguist-vendored
 .jsx linguist-language=JavaScript
+*.js linguist-vendored=false
+*.jsx linguist-vendored=false
